@@ -34,7 +34,7 @@ export class Products {
   category: Categories;
 
   @Column({ name: 'category_id' })
-  categoryId: number;
+  category_id: number;
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;
