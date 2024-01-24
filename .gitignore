@@ -2,6 +2,12 @@
 /dist
 /node_modules
 
+#environment variables
+.env
+
+#docker volume for Postgres database
+data
+
 # Logs
 logs
 *.log
