@@ -1,9 +1,11 @@
 import {
+  BeforeInsert,
   Column,
   CreateDateColumn,
   Entity,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import * as bcrypt from 'bcrypt';
 
 @Entity()
 export class Users {
@@ -24,4 +26,9 @@ export class Users {
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;
+
+  @BeforeInsert()
+  async hashPassowrd() {
+    this.password = await bcrypt.hash(this.password, 10);
+  }
 }
