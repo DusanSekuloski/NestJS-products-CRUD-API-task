@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import {
   CreateProductDto,
@@ -13,17 +14,19 @@ import {
   UpdateProductQuantityDto,
 } from './dto/productsDto';
 import { ProductsService } from './products.service';
+import { JwtGuard } from 'src/auth/guards/jwt-auth.guard';
 
 @Controller('products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
+  @UseGuards(JwtGuard)
   @Post()
   async createProduct(@Body() createProductDto: CreateProductDto) {
     await this.productsService.create(createProductDto);
     return { status: 'Product created successfully', statusCode: 201 };
   }
-
+  @UseGuards(JwtGuard)
   @Get()
   async getAllProducts() {
     return this.productsService.getAll();
@@ -33,7 +36,7 @@ export class ProductsController {
   async getProductById(@Param('id') id: number) {
     return this.productsService.getById(id);
   }
-
+  @UseGuards(JwtGuard)
   @Put(':id')
   async updateNonQuantityProductData(
     @Param('id') id: number,
@@ -49,7 +52,7 @@ export class ProductsController {
       statusCode: 200,
     };
   }
-
+  @UseGuards(JwtGuard)
   @Put('quantity/:id')
   async updateProductQuantity(
     @Param('id') id: number,
