@@ -28,7 +28,8 @@ export class UsersController {
 
   @UseGuards(JwtGuard)
   @Put('update')
-  async updateUser(@Req() id: number, @Body() updateUserDto: UpdateUserDto) {
+  async updateUser(@Req() req, @Body() updateUserDto: UpdateUserDto) {
+    const id = req.user.id;
     await this.usersService.update(id, updateUserDto);
     return { status: 'User updated successfully', statusCode: 200 };
   }
