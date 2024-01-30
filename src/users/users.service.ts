@@ -1,8 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Users } from 'src/entities/users.entity';
 import { Repository } from 'typeorm';
-import { CreateUserDto, UpdateUserDto } from './dto/usersDto';
+import { CreateUserDto } from './dto/createUserDto';
+import { UpdateUserDto } from './dto/updateUserDto';
+import { GetUserDto } from './dto/getUserDto';
 
 @Injectable()
 export class UsersService {
@@ -21,13 +23,21 @@ export class UsersService {
   }
 
   async getById(id: number) {
-    return await this.usersRepository.findOne({
+    const oneUser = await this.usersRepository.findOne({
       where: { id: id },
     });
+    if (!oneUser) {
+      throw new NotFoundException('User with that id does not exist');
+    }
+
+    const userDto = new GetUserDto(oneUser);
+    return userDto;
   }
 
   async getAll() {
-    return await this.usersRepository.find();
+    const allUsers = await this.usersRepository.find();
+    const usersDto = allUsers.map((user) => new GetUserDto(user));
+    return usersDto;
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
@@ -35,6 +45,7 @@ export class UsersService {
   }
 
   async delete(id: number) {
+    await this.getById(id);
     await this.usersRepository.delete(id);
   }
 }

@@ -29,12 +29,17 @@ export class AuthService {
     return {
       email,
       id,
-      accessToken: this.jwtService.sign(payload),
-      refreshToken: this.jwtService.sign(payload, { expiresIn: '7d' }),
+      accessToken: this.jwtService.sign(payload, {
+        secret: process.env.ACCESS_TOKEN_SECRET,
+      }),
+      refreshToken: this.jwtService.sign(payload, {
+        expiresIn: '7d',
+        secret: process.env.REFRESH_TOKEN_SECRET,
+      }),
     };
   }
 
-  async refreshToken(user: Users) {
+  async createNewAccessToken(user: Users) {
     const { email, id } = user;
     const payload = {
       id: user.id,

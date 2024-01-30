@@ -27,7 +27,9 @@ export class CategoriesController {
 
   @Get(':id')
   async getCategoryById(@Param('id') category_id: number) {
-    return this.categoriesService.getById(category_id);
+    const category = this.categoriesService.getById(category_id);
+
+    return category;
   }
 
   @Put(':id')
