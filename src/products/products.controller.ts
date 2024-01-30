@@ -24,7 +24,7 @@ export class ProductsController {
     await this.productsService.create(createProductDto);
     return { status: 'Product created successfully', statusCode: 201 };
   }
-  @UseGuards(JwtGuard)
+
   @Get()
   async getAllProducts() {
     return this.productsService.getAll();

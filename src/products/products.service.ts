@@ -49,9 +49,6 @@ export class ProductsService {
     id: number,
     updateNonQuantityProductDetailsDto: UpdateNonQuantityProductDetailsDto,
   ) {
-    const product = await this.productsRepository.findOne({
-      where: { id: id },
-    });
     const category = await this.categoriesRepository.findOne({
       where: { category_id: updateNonQuantityProductDetailsDto.category_id },
     });
@@ -59,11 +56,8 @@ export class ProductsService {
       throw new NotFoundException(
         'Cannot update product, category with that id does not exist',
       );
-    } else if (!product) {
-      throw new NotFoundException(
-        'Cannot update product, product with that id does not exist',
-      );
     }
+    await this.getById(id);
     return await this.productsRepository.update(
       id,
       updateNonQuantityProductDetailsDto,
@@ -74,26 +68,12 @@ export class ProductsService {
     id: number,
     updateProductQuantityDto: UpdateProductQuantityDto,
   ) {
-    const product = await this.productsRepository.findOne({
-      where: { id: id },
-    });
-    if (!product) {
-      throw new NotFoundException(
-        'Cannot update product, product with that id does not exist',
-      );
-    }
+    await this.getById(id);
     return await this.productsRepository.update(id, updateProductQuantityDto);
   }
 
   async delete(id: number) {
-    const product = await this.productsRepository.findOne({
-      where: { id: id },
-    });
-    if (!product) {
-      throw new NotFoundException(
-        'Cannot delete product, product with that id does not exist',
-      );
-    }
+    await this.getById(id);
     await this.productsRepository.delete(id);
   }
 }

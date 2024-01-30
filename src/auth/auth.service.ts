@@ -31,10 +31,11 @@ export class AuthService {
       id,
       accessToken: this.jwtService.sign(payload, {
         secret: process.env.ACCESS_TOKEN_SECRET,
+        expiresIn: '30m',
       }),
       refreshToken: this.jwtService.sign(payload, {
-        expiresIn: '7d',
         secret: process.env.REFRESH_TOKEN_SECRET,
+        expiresIn: '7d',
       }),
     };
   }
@@ -48,7 +49,10 @@ export class AuthService {
     return {
       email,
       id,
-      refreshToken: this.jwtService.sign(payload, { expiresIn: '7d' }),
+      accessToken: this.jwtService.sign(payload, {
+        secret: process.env.ACCESS_TOKEN_SECRET,
+        expiresIn: '30m',
+      }),
     };
   }
 }

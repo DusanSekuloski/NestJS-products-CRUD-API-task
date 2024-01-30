@@ -14,11 +14,9 @@ import { RefreshJwtStrategy } from './strategies/refreshToken-strategy';
     TypeOrmModule.forFeature([Users]),
     JwtModule.register({
       secret: process.env.ACCESS_TOKEN_SECRET,
-      signOptions: { expiresIn: '120s' },
     }),
     JwtModule.register({
       secret: process.env.REFRESH_TOKEN_SECRET,
-      signOptions: { expiresIn: '7d' },
     }),
   ],
   providers: [
