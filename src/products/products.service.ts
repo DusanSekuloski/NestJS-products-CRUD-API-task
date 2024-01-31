@@ -6,6 +6,8 @@ import { CreateProductDto } from './dto/createProductDto';
 import { UpdateProductQuantityDto } from './dto/updateProductQuantityDto';
 import { UpdateNonQuantityProductDetailsDto } from './dto/updateNonQuantityProductDetailsDto';
 import { Categories } from 'src/entities/categories.entity';
+import { plainToInstance } from 'class-transformer';
+import { GetProductDto } from './dto/getProductDto';
 
 @Injectable()
 export class ProductsService {
@@ -29,20 +31,27 @@ export class ProductsService {
     await this.productsRepository.save(newProduct);
   }
 
-  async getAll() {
-    return await this.productsRepository.find();
+  async getAll(options) {
+    const allProducts = await this.productsRepository.find(options);
+
+    return plainToInstance(GetProductDto, allProducts, {
+      excludeExtraneousValues: true,
+    });
   }
 
   async getById(id: number) {
     const product = await this.productsRepository.findOne({
       where: { id: id },
+      relations: ['category'],
     });
 
     if (!product) {
       throw new NotFoundException('Product not found');
     }
 
-    return product;
+    return plainToInstance(GetProductDto, product, {
+      excludeExtraneousValues: true,
+    });
   }
 
   async updateNonQuantityProductInfo(

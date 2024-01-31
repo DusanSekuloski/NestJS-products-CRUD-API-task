@@ -3,6 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Categories } from 'src/entities/categories.entity';
 import { Repository } from 'typeorm';
 import { CreateCategoryDto, UpdateCategoryDto } from './dto/createCategoryDto';
+import { plainToInstance } from 'class-transformer';
+import { GetCategoryDto } from './dto/getCategoryDto';
 
 @Injectable()
 export class CategoriesService {
@@ -24,13 +26,15 @@ export class CategoriesService {
   async getById(category_id: number) {
     const category = await this.categoriesRepository.findOne({
       where: { category_id: category_id },
+      relations: ['products'],
     });
 
     if (!category) {
       throw new NotFoundException('Category not found');
     }
-
-    return category;
+    return plainToInstance(GetCategoryDto, category, {
+      excludeExtraneousValues: false,
+    });
   }
 
   async update(category_id: number, updateCategoryDto: UpdateCategoryDto) {

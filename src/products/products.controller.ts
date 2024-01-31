@@ -27,7 +27,7 @@ export class ProductsController {
 
   @Get()
   async getAllProducts() {
-    return this.productsService.getAll();
+    return this.productsService.getAll({ relations: ['category'] });
   }
 
   @Get(':id')
