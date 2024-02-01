@@ -3,9 +3,11 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import { Orders } from './orders.entity';
 
 @Entity()
 export class Users {
@@ -23,6 +25,9 @@ export class Users {
 
   @Column({ nullable: false })
   password: string;
+
+  @OneToMany(() => Orders, (orders) => orders.user)
+  orders: Orders[];
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;
