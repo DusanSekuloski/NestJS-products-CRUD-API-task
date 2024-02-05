@@ -4,10 +4,12 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { Categories } from './categories.entity';
+import { OrderProduct } from './order_product.entity';
 
 @Entity()
 export class Products {
@@ -44,4 +46,9 @@ export class Products {
     default: () => 'CURRENT_TIMESTAMP',
   })
   updated_at: Date;
+
+  @OneToMany(() => OrderProduct, (orderProduct) => orderProduct.product, {
+    cascade: true,
+  })
+  order_product: OrderProduct[];
 }

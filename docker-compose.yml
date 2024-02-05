@@ -8,10 +8,4 @@ services:
     volumes:
       - ./data/db:/var/lib/postgresql/data
     ports:
-      - 5432:5432
-
-  adminer:
-    image: adminer
-    restart: always
-    ports:
-      - 8080:8080
+      - 5433:5432

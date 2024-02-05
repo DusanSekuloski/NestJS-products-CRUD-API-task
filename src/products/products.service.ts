@@ -85,4 +85,8 @@ export class ProductsService {
     await this.getById(id);
     await this.productsRepository.delete(id);
   }
+
+  async checkIfProductsExist(productIds: number[]): Promise<Products[]> {
+    return await this.productsRepository.findByIds(productIds);
+  }
 }
