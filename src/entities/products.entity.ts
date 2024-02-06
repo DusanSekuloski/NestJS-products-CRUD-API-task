@@ -29,7 +29,7 @@ export class Products {
   product_price: number;
 
   @Column({ nullable: false })
-  quantity: string;
+  product_quantity: number;
 
   @ManyToOne(() => Categories, (categories) => categories.products)
   @JoinColumn({ name: 'category_id' })

@@ -11,10 +11,10 @@ export class CreateProductDto {
   description: string;
 
   @IsNumber()
-  price: number;
+  product_price: number;
 
-  @IsString()
-  product_quantity: string;
+  @IsNumber()
+  product_quantity: number;
 
   @IsNumber()
   category_id: number;
