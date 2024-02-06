@@ -31,13 +31,13 @@ export class ProductsController {
   }
 
   @Get(':id')
-  async getProductById(@Param('id') id: number) {
+  async getProductById(@Param('id') id: number[]) {
     return this.productsService.getById(id);
   }
   @UseGuards(JwtGuard)
   @Put(':id')
   async updateNonQuantityProductData(
-    @Param('id') id: number,
+    @Param('id') id: number[],
     @Body()
     updateNonQuantityProductDetailsDto: UpdateNonQuantityProductDetailsDto,
   ) {
@@ -53,7 +53,7 @@ export class ProductsController {
   @UseGuards(JwtGuard)
   @Put('quantity/:id')
   async updateProductQuantity(
-    @Param('id') id: number,
+    @Param('id') id: number[],
     @Body()
     updateProductQuantityDto: UpdateProductQuantityDto,
   ) {
@@ -68,7 +68,7 @@ export class ProductsController {
   }
 
   @Delete(':id')
-  async deleteProduct(@Param('id') id: number) {
+  async deleteProduct(@Param('id') id: number[]) {
     await this.productsService.delete(id);
     return {
       status: 'Product deleted successfully',

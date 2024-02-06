@@ -26,10 +26,10 @@ export class Products {
   description: string;
 
   @Column({ type: 'decimal', precision: 10, scale: 2, nullable: false })
-  price: number;
+  product_price: number;
 
   @Column({ nullable: false })
-  product_quantity: string;
+  quantity: string;
 
   @ManyToOne(() => Categories, (categories) => categories.products)
   @JoinColumn({ name: 'category_id' })

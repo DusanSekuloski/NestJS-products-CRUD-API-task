@@ -1,12 +1,12 @@
-import { Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
 import { Products } from './products.entity';
 import { Order } from './orders.entity';
 
 @Entity()
 export class OrderProduct {
-  constructor(intialData: Partial<OrderProduct> = null) {
-    if (intialData !== null) {
-      Object.assign(this, intialData);
+  constructor(initialData: Partial<OrderProduct> = null) {
+    if (initialData !== null) {
+      Object.assign(this, initialData);
     }
   }
 
@@ -15,6 +15,12 @@ export class OrderProduct {
 
   @PrimaryColumn()
   product_id: number;
+
+  @Column({ name: 'product_price', type: 'numeric' })
+  product_price: number;
+
+  @Column({ type: 'numeric' })
+  quantity: number;
 
   @ManyToOne(() => Products, (product) => product.order_product)
   @JoinColumn({ name: 'product_id', referencedColumnName: 'id' })
