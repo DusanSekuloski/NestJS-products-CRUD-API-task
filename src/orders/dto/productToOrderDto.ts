@@ -15,5 +15,5 @@ export class ProductToOrderDto {
 
   @IsOptional()
   @IsNumber()
-  quantity: number;
+  product_quantity: number;
 }

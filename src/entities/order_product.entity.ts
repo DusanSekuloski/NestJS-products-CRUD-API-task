@@ -20,7 +20,7 @@ export class OrderProduct {
   product_price: number;
 
   @Column({ type: 'numeric' })
-  quantity: number;
+  product_quantity: number;
 
   @ManyToOne(() => Products, (product) => product.order_product)
   @JoinColumn({ name: 'product_id', referencedColumnName: 'id' })
