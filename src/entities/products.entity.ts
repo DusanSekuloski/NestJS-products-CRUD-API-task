@@ -7,9 +7,15 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
+  ValueTransformer,
 } from 'typeorm';
 import { Categories } from './categories.entity';
 import { OrderProduct } from './order_product.entity';
+
+const numberTransformer: ValueTransformer = {
+  to: (entityValue: number) => entityValue,
+  from: (databaseValue: string) => parseFloat(databaseValue),
+};
 
 @Entity()
 export class Products {
@@ -25,7 +31,13 @@ export class Products {
   @Column({ type: 'text', nullable: false })
   description: string;
 
-  @Column({ type: 'decimal', precision: 10, scale: 2, nullable: false })
+  @Column({
+    type: 'decimal',
+    precision: 10,
+    scale: 2,
+    nullable: false,
+    transformer: numberTransformer,
+  })
   product_price: number;
 
   @Column({ nullable: false })

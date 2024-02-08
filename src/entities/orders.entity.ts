@@ -24,6 +24,9 @@ export class Order {
   @Column({ name: 'user_id' })
   user_id: number;
 
+  @Column({ name: 'total_amount', type: 'numeric' })
+  totalAmount: number;
+
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;
 

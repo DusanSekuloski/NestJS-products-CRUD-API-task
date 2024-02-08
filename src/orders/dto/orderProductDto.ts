@@ -1,16 +1,11 @@
 import { IsArray, IsNumber, IsOptional } from 'class-validator';
 
-export class ProductToOrderDto {
+export class OrderProductDto {
   @IsOptional()
   @IsArray()
-  product_id: number[];
+  product_id: number;
 
   @IsOptional()
-  @IsNumber()
-  order_id: number;
-
-  @IsOptional()
-  @IsNumber()
   product_price: number;
 
   @IsOptional()
