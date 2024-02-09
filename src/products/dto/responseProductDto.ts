@@ -20,11 +20,11 @@ export class ResponseProductDto {
 
   @IsNumber()
   @Expose()
-  price: number;
+  product_price: number;
 
-  @IsString()
+  @IsNumber()
   @Expose()
-  product_quantity: string;
+  product_quantity: number;
 
   @Expose()
   @IsDate()

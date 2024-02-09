@@ -15,7 +15,7 @@ export class UpdateNonQuantityProductDetailsDto {
 
   @IsOptional()
   @IsNumber()
-  price: number;
+  product_price: number;
 
   @IsOptional()
   @IsNumber()
