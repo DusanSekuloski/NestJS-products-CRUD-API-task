@@ -1,4 +1,9 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Products } from 'src/entities/products.entity';
 import { In, Repository } from 'typeorm';
@@ -8,7 +13,7 @@ import { UpdateNonQuantityProductDetailsDto } from './dto/updateNonQuantityProdu
 import { Categories } from 'src/entities/categories.entity';
 import { plainToInstance } from 'class-transformer';
 import { GetProductDto } from './dto/getProductDto';
-
+import { ProductToOrderDto } from 'src/orders/dto/productToOrderDto';
 @Injectable()
 export class ProductsService {
   constructor(
@@ -84,5 +89,28 @@ export class ProductsService {
   async delete(id: number[]) {
     await this.getById(id);
     await this.productsRepository.delete(id);
+  }
+
+  async checkIfProductsExist(inputData: ProductToOrderDto[]) {
+    for (const product of inputData) {
+      const existingProduct = await this.productsRepository.findOne({
+        where: {
+          id: product.product_id,
+        },
+      });
+      if (!existingProduct) {
+        throw new NotFoundException(
+          `Product with id ${product.product_id} not found`,
+        );
+      }
+      if (existingProduct.product_quantity < product.product_quantity) {
+        throw new BadRequestException(
+          `Quantity for product with id ${product.product_id} not available`,
+        );
+      }
+      if (existingProduct.product_price != product.product_price) {
+        throw new ConflictException(`Wrong product price`);
+      }
+    }
   }
 }
