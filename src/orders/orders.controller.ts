@@ -31,20 +31,20 @@ export class OrdersController {
   async getOrderById(@Param('id') id: number[]) {
     return this.ordersService.getById(id);
   }
-  // @Post(':id/add/product')
-  // async addProductToExistingOrder(
-  //   @Param('id') id: number,
-  //   @Body() dto: OrderProductDto,
-  // ) {
-  //   // dto.order_id = id;
-  //   const addedProduct =
-  //     await this.ordersService.addProductToExistingOrder(dto);
-  //   return {
-  //     statusCode: 201,
-  //     message: `Added product with id ${dto.product_id} to order ${id}`,
-  //     addedProduct,
-  //   };
-  // }
+  @Post(':id/add/product')
+  async addProductToExistingOrder(
+    @Param('id') id: number,
+    @Body() dto: CreateOrderDto,
+  ) {
+    dto.order_id = id;
+    const addedProduct =
+      await this.ordersService.addProductToExistingOrder(dto);
+    return {
+      statusCode: 201,
+      message: `Added product with id ${dto} to order ${id}`,
+      addedProduct,
+    };
+  }
   // @Delete(':id/delete/product')
   // async deleteProductFromOrder(
   //   @Param('id') id: number,

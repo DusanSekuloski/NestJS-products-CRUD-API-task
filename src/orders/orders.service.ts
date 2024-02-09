@@ -106,33 +106,68 @@ export class OrdersService {
       excludeExtraneousValues: false,
     });
   }
-  // async addProductToExistingOrder(dto: OrderProductDto) {
-  //   const queryRunner = this.dataSource.createQueryRunner();
-  //   const productIds = dto.product_id;
-  //   // const orderId = dto.order_id;
+  //TODO: Refactor this function
+  async addProductToExistingOrder(dto: CreateOrderDto) {
+    const queryRunner = this.dataSource.createQueryRunner();
+    const productIds = dto.orderProducts.map((product) => product.product_id);
+    const orderId = dto.order_id;
+    const products = await this.productsService.getById(productIds);
+    if (products.length !== productIds.length) {
+      throw new NotFoundException('Some products listed do not exist');
+    }
+    const requestProductPrices = dto.orderProducts.map(
+      (product) => product.product_price,
+    );
+    const databaseProductPrices = products.map(
+      (product) => product.product_price,
+    );
+    for (let i = 0; i < productIds.length; i++) {
+      if (requestProductPrices[i] != databaseProductPrices[i]) {
+        throw new BadRequestException(
+          'Product prices in the request do not match the prices in the database',
+        );
+      }
+    }
+    const productQuantity = dto.orderProducts.map(
+      (product) => product.product_quantity,
+    );
+    const orderInfo = await this.ordersRepository.findOne({
+      where: { order_id: orderId },
+    });
 
-  //   const products = await this.productsService.getById(productIds);
-  //   if (products.length !== productIds.length) {
-  //     throw new NotFoundException('Some products listed do not exist');
-  //   }
-  //   await queryRunner.connect();
-  //   await queryRunner.startTransaction();
-  //   try {
-  //     for (let i = 0; i < productIds.length; i++) {
-  //       const orderProduct = new OrderProduct({
-  //         product_id: productIds[i],
-  //         order_id: orderId,
-  //       });
-  //       await this.orderProductRepository.save(orderProduct);
-  //     }
-  //     await queryRunner.commitTransaction();
-  //   } catch (error) {
-  //     await queryRunner.rollbackTransaction();
-  //     throw error;
-  //   } finally {
-  //     await queryRunner.release();
-  //   }
-  // }
+    const databaseTotalAmount = orderInfo.totalAmount;
+
+    let requestTotalAmount: number = 0;
+    dto.orderProducts.forEach((orderProduct) => {
+      requestTotalAmount =
+        requestTotalAmount +
+        orderProduct.product_price * orderProduct.product_quantity;
+    });
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+    try {
+      const order = new Order({
+        totalAmount: databaseTotalAmount + requestTotalAmount,
+      });
+      await this.ordersRepository.update(orderId, order);
+
+      for (let i = 0; i < productIds.length; i++) {
+        const orderProduct = new OrderProduct({
+          product_id: productIds[i],
+          order_id: orderId,
+          product_price: requestProductPrices[i],
+          product_quantity: productQuantity[i],
+        });
+        await this.orderProductRepository.save(orderProduct);
+      }
+      await queryRunner.commitTransaction();
+    } catch (error) {
+      await queryRunner.rollbackTransaction();
+      throw error;
+    } finally {
+      await queryRunner.release();
+    }
+  }
   // async deleteProductFromOrder(dto: OrderProductDto) {
   //   const { order_id, product_id } = dto;
   //   const orderProducts = await this.orderProductRepository.find({
