@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { JwtGuard } from 'src/auth/guards/jwt-auth.guard';
-import { RequestWithUser } from 'interfaces/userRequest.interface';
+import { RequestWithUser } from 'src/common/interfaces/userRequest.interface';
 import { CreateOrderDto } from './dto/createOrderDto';
 import { OrderProductDto } from './dto/orderProductDto';
 import { UpdateOrderStatusDto } from './dto/updateOrderStatusDto';
