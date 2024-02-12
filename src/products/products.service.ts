@@ -1,13 +1,19 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Products } from 'src/entities/products.entity';
-import { In, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { CreateProductDto } from './dto/createProductDto';
 import { UpdateProductQuantityDto } from './dto/updateProductQuantityDto';
 import { UpdateNonQuantityProductDetailsDto } from './dto/updateNonQuantityProductDetailsDto';
 import { Categories } from 'src/entities/categories.entity';
 import { plainToInstance } from 'class-transformer';
 import { GetProductDto } from './dto/getProductDto';
+import { OrderProductDto } from 'src/orders/dto/orderProductDto';
 
 @Injectable()
 export class ProductsService {
@@ -39,13 +45,13 @@ export class ProductsService {
     });
   }
 
-  async getById(id: number[]) {
-    const product = await this.productsRepository.find({
-      where: { id: In(id) },
+  async getById(id: number) {
+    const product = await this.productsRepository.findOne({
+      where: { id: id },
       relations: ['category'],
     });
 
-    if (product.length < 1) {
+    if (!product) {
       throw new NotFoundException('Product not found');
     }
 
@@ -55,7 +61,7 @@ export class ProductsService {
   }
 
   async updateNonQuantityProductInfo(
-    id: number[],
+    id: number,
     updateNonQuantityProductDetailsDto: UpdateNonQuantityProductDetailsDto,
   ) {
     const category = await this.categoriesRepository.findOne({
@@ -74,15 +80,38 @@ export class ProductsService {
   }
 
   async updateProductQuantityInfo(
-    id: number[],
+    id: number,
     updateProductQuantityDto: UpdateProductQuantityDto,
   ) {
     await this.getById(id);
     return await this.productsRepository.update(id, updateProductQuantityDto);
   }
 
-  async delete(id: number[]) {
+  async delete(id: number) {
     await this.getById(id);
     await this.productsRepository.delete(id);
+  }
+
+  async checkIfProductsExist(inputData: OrderProductDto[]) {
+    for (const product of inputData) {
+      const existingProduct = await this.productsRepository.findOne({
+        where: {
+          id: product.product_id,
+        },
+      });
+      if (!existingProduct) {
+        throw new NotFoundException(
+          `Product with id ${product.product_id} not found`,
+        );
+      }
+      if (existingProduct.product_quantity < product.product_quantity) {
+        throw new BadRequestException(
+          `Inserted quantity amount for product with id ${product.product_id} is not available`,
+        );
+      }
+      if (existingProduct.product_price != product.product_price) {
+        throw new ConflictException(`Wrong product price`);
+      }
+    }
   }
 }

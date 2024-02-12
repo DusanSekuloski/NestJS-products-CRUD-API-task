@@ -22,7 +22,9 @@ export class OrderProduct {
   @Column({ type: 'numeric' })
   product_quantity: number;
 
-  @ManyToOne(() => Products, (product) => product.order_product)
+  @ManyToOne(() => Products, (product) => product.order_product, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'product_id', referencedColumnName: 'id' })
   product: Products;
 
