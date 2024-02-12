@@ -1,0 +1,513 @@
+{
+  "info": {
+    "_postman_id": "12967ae5-6520-4135-b99e-9eb87d895b2d",
+    "name": "Dule NestJS Products CRUD API task",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "23221045",
+    "_collection_link": "https://dark-trinity-61176.postman.co/workspace/New-Team-Workspace~50bed050-230f-4192-93a9-401b32d4ad61/collection/23221045-12967ae5-6520-4135-b99e-9eb87d895b2d?action=share&source=collection_link&creator=23221045"
+  },
+  "item": [
+    {
+      "name": "Products requests",
+      "item": [
+        {
+          "name": "Get all products",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "",
+                "value": "",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/products/",
+              "host": ["{{base_url}}"],
+              "path": ["products", ""]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get product by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/products/{{id}}",
+              "host": ["{{base_url}}"],
+              "path": ["products", "{{id}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete product by ID",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/products/{{id}}",
+              "host": ["{{base_url}}"],
+              "path": ["products", "{{id}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create product",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{accessToken}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\":\"chicken breast\",\n\"short_description\":\"meat product\",\n\"description\":\"Nutritional values per 100g: calories - 165kcal, protein - 20g, fat - 3.6g, carbs - 0g\",\n\"product_price\": 15.57,\n\"product_quantity\": 8,\n\"category_id\": 4\n}\n\n\n\n\n\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/products/",
+              "host": ["{{base_url}}"],
+              "path": ["products", ""]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update product by ID (except product_quantity)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{accessToken}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\":\"steel cut oatmeal\",\n\"short_description\":\"grain product\",\n\"description\":\"Nutritional values per 100g: calories - 366kcal, protein - 15g, fat - 10g, carbs - 66g\",\n\"product_price\":200,\n\"category_id\":4\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/products/{{id}}",
+              "host": ["{{base_url}}"],
+              "path": ["products", "{{id}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update product_quantity by ID",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{accessToken}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"product_quantity\":50\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/products/quantity/{{id}}",
+              "host": ["{{base_url}}"],
+              "path": ["products", "quantity", "{{id}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Categories requests",
+      "item": [
+        {
+          "name": "Get all categories",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/categories/",
+              "host": ["{{base_url}}"],
+              "path": ["categories", ""]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get category by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/categories/{{id}}",
+              "host": ["{{base_url}}"],
+              "path": ["categories", "{{id}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete category by ID",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/categories/{{id}}",
+              "host": ["{{base_url}}"],
+              "path": ["categories", "{{id}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create category",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"category_name\": \"Food\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/categories",
+              "host": ["{{base_url}}"],
+              "path": ["categories"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update category by ID",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"category_name\": \"Chemicals\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/categories/{{id}}",
+              "host": ["{{base_url}}"],
+              "path": ["categories", "{{id}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Users requests",
+      "item": [
+        {
+          "name": "Delete user",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/users/{{id}}",
+              "host": ["{{base_url}}"],
+              "path": ["users", "{{id}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get all users",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/users",
+              "host": ["{{base_url}}"],
+              "path": ["users"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get user by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/users/{{id}}",
+              "host": ["{{base_url}}"],
+              "path": ["users", "{{id}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update logged in user",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{accessToken}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"first_name\":\"Marko\",\n    \"last_name\": \"Markovic\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/users/update",
+              "host": ["{{base_url}}"],
+              "path": ["users", "update"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Auth requests",
+      "item": [
+        {
+          "name": "Register user",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"first_name\":\"Petar\",\n    \"last_name\":\"Petrovic\",\n    \"email\":\"petrovic@gmail.com\",\n    \"password\": \"qwerty123\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/register",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "register"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login user",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "tests[\"Status code is 201\"] = responseCode.code === 201;",
+                  "var jsonData = JSON.parse(responseBody);",
+                  "postman.setEnvironmentVariable(\"accessToken\", 'Bearer '+jsonData.accessToken);",
+                  ""
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"petrovic@gmail.com\",\n    \"password\": \"qwerty123\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "login"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create access token",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"refresh\": \"\"\n\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/refresh",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "refresh"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Orders requests",
+      "item": [
+        {
+          "name": "Create order",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{accessToken}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"orderProducts\": [\n        {\n            \"product_id\":2,\n            \"product_price\": 15.57,\n            \"product_quantity\":3\n\n        },\n        {\n            \"product_id\":3,\n            \"product_price\": 15.57,\n            \"product_quantity\":2\n        }\n    ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/orders/",
+              "host": ["{{base_url}}"],
+              "path": ["orders", ""]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update order status",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"order_status\": \"Processing\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/orders/{{id}}/update/status",
+              "host": ["{{base_url}}"],
+              "path": ["orders", "{{id}}", "update", "status"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get all Orders",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/orders/",
+              "host": ["{{base_url}}"],
+              "path": ["orders", ""]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get order by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/orders/{{id}}",
+              "host": ["{{base_url}}"],
+              "path": ["orders", "{{id}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete order",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/orders/delete/{{id}}",
+              "host": ["{{base_url}}"],
+              "path": ["orders", "delete", "{{id}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "id",
+      "value": "1",
+      "type": "string"
+    }
+  ]
+}

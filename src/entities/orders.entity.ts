@@ -10,6 +10,7 @@ import {
 } from 'typeorm';
 import { Users } from './users.entity';
 import { OrderProduct } from './order_product.entity';
+import { OrderStatus } from 'src/common/enums/orderStatus.enum';
 
 @Entity('orders')
 export class Order {
@@ -26,6 +27,13 @@ export class Order {
 
   @Column({ name: 'total_amount', type: 'numeric' })
   totalAmount: number;
+
+  @Column({
+    name: 'order_status',
+    type: 'varchar',
+    default: OrderStatus.Created,
+  })
+  order_status: OrderStatus;
 
   @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;
