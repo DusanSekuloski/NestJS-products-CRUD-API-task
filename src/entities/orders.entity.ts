@@ -8,8 +8,8 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Users } from './users.entity';
-import { OrderProduct } from './order_product.entity';
+import { User } from './users.entity';
+import { OrderProduct } from './order_products.entity';
 import { OrderStatus } from 'src/common/enums/orderStatus.enum';
 
 @Entity('orders')
@@ -19,11 +19,11 @@ export class Order {
       Object.assign(this, intialData);
     }
   }
-  @PrimaryGeneratedColumn()
-  order_id: number;
+  @PrimaryGeneratedColumn({ name: 'order_id' })
+  orderId: number;
 
   @Column({ name: 'user_id' })
-  user_id: number;
+  userId: number;
 
   @Column({ name: 'total_amount', type: 'numeric' })
   totalAmount: number;
@@ -33,23 +33,28 @@ export class Order {
     type: 'varchar',
     default: OrderStatus.Created,
   })
-  order_status: OrderStatus;
+  orderStatus: OrderStatus;
 
-  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  created_at: Date;
-
-  @UpdateDateColumn({
+  @CreateDateColumn({
+    name: 'created_at',
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP',
   })
-  updated_at: Date;
+  createdAt: Date;
 
-  @ManyToOne(() => Users, (user) => user.orders, { nullable: false })
+  @UpdateDateColumn({
+    name: 'updated_at',
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  updatedAt: Date;
+
+  @ManyToOne(() => User, (user) => user.orders, { nullable: false })
   @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
-  user: Users;
+  user: User;
 
   @OneToMany(() => OrderProduct, (orderProduct) => orderProduct.order, {
     cascade: true,
   })
-  order_product: OrderProduct[];
+  orderProduct: OrderProduct[];
 }

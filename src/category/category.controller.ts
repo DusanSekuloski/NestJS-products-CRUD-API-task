@@ -7,12 +7,12 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { CategoriesService } from './categories.service';
+import { CategoryService } from './category.service';
 import { CreateCategoryDto, UpdateCategoryDto } from './dto/createCategoryDto';
 
 @Controller('categories')
-export class CategoriesController {
-  constructor(private readonly categoriesService: CategoriesService) {}
+export class CategoryController {
+  constructor(private readonly categoriesService: CategoryService) {}
 
   @Post()
   async createCategory(@Body() createCategoryDto: CreateCategoryDto) {

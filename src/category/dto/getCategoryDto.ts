@@ -1,6 +1,6 @@
 import { Expose, Type } from 'class-transformer';
 import { IsDate, IsNumber, IsString } from 'class-validator';
-import { ResponseProductDto } from 'src/products/dto/responseProductDto';
+import { ResponseProductDto } from 'src/product/dto/responseProductDto';
 
 export class GetCategoryDto {
   @Expose()

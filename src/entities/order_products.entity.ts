@@ -1,8 +1,8 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
-import { Products } from './products.entity';
+import { Product } from './products.entity';
 import { Order } from './orders.entity';
 
-@Entity()
+@Entity('order_products')
 export class OrderProduct {
   constructor(initialData: Partial<OrderProduct> = null) {
     if (initialData !== null) {
@@ -10,25 +10,25 @@ export class OrderProduct {
     }
   }
 
-  @PrimaryColumn()
-  order_id: number;
+  @PrimaryColumn({ name: 'order_id' })
+  orderId: number;
 
-  @PrimaryColumn()
-  product_id: number;
+  @PrimaryColumn({ name: 'product_id' })
+  productId: number;
 
   @Column({ name: 'product_price', type: 'numeric' })
-  product_price: number;
+  productPrice: number;
 
-  @Column({ type: 'numeric' })
-  product_quantity: number;
+  @Column({ name: 'product_quantity', type: 'numeric' })
+  productQuantity: number;
 
-  @ManyToOne(() => Products, (product) => product.order_product, {
+  @ManyToOne(() => Product, (product) => product.orderProduct, {
     onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'product_id', referencedColumnName: 'id' })
-  product: Products;
+  product: Product;
 
-  @ManyToOne(() => Order, (order) => order.order_product)
+  @ManyToOne(() => Order, (order) => order.orderProduct)
   @JoinColumn({ name: 'order_id', referencedColumnName: 'order_id' })
   order: Order;
 }

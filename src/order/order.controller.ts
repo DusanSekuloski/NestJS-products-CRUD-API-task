@@ -9,7 +9,7 @@ import {
   Req,
   UseGuards,
 } from '@nestjs/common';
-import { OrdersService } from './orders.service';
+import { OrderService } from './order.service';
 import { JwtGuard } from 'src/auth/guards/jwt-auth.guard';
 import { RequestWithUser } from 'src/common/interfaces/userRequest.interface';
 import { CreateOrderDto } from './dto/createOrderDto';
@@ -17,8 +17,8 @@ import { OrderProductDto } from './dto/orderProductDto';
 import { UpdateOrderStatusDto } from './dto/updateOrderStatusDto';
 
 @Controller('orders')
-export class OrdersController {
-  constructor(private readonly ordersService: OrdersService) {}
+export class OrderController {
+  constructor(private readonly ordersService: OrderService) {}
 
   @UseGuards(JwtGuard)
   @Post()

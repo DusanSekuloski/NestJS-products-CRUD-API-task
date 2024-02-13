@@ -6,25 +6,30 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Products } from './products.entity';
+import { Product } from './products.entity';
 
-@Entity()
-export class Categories {
-  @PrimaryGeneratedColumn()
-  category_id: number;
+@Entity('categories')
+export class Category {
+  @PrimaryGeneratedColumn({ name: 'category_id' })
+  categoryId: number;
 
-  @Column({ nullable: false })
-  category_name: string;
+  @Column({ name: 'category_name', nullable: false })
+  categoryName: string;
 
-  @OneToMany(() => Products, (products) => products.category)
-  products: Products[];
+  @OneToMany(() => Product, (products) => products.category)
+  products: Product[];
 
-  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  created_at: Date;
-
-  @UpdateDateColumn({
+  @CreateDateColumn({
+    name: 'created_at',
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP',
   })
-  updated_at: Date;
+  createdAt: Date;
+
+  @UpdateDateColumn({
+    name: 'updated_at',
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  updatedAt: Date;
 }

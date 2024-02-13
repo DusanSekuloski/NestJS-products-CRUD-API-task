@@ -11,12 +11,12 @@ import {
 import { CreateProductDto } from './dto/createProductDto';
 import { UpdateProductQuantityDto } from './dto/updateProductQuantityDto';
 import { UpdateNonQuantityProductDetailsDto } from './dto/updateNonQuantityProductDetailsDto';
-import { ProductsService } from './products.service';
+import { ProductService } from './product.service';
 import { JwtGuard } from 'src/auth/guards/jwt-auth.guard';
 
 @Controller('products')
-export class ProductsController {
-  constructor(private readonly productsService: ProductsService) {}
+export class ProductController {
+  constructor(private readonly productsService: ProductService) {}
 
   @UseGuards(JwtGuard)
   @Post()

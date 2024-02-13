@@ -2,8 +2,8 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectEntityManager, InjectRepository } from '@nestjs/typeorm';
 import { Order } from 'src/entities/orders.entity';
 import { EntityManager, Repository } from 'typeorm';
-import { ProductsService } from 'src/products/products.service';
-import { OrderProduct } from 'src/entities/order_product.entity';
+import { ProductService } from 'src/product/product.service';
+import { OrderProduct } from 'src/entities/order_products.entity';
 import { plainToInstance } from 'class-transformer';
 import { GetOrderDto } from './dto/getOrderDto';
 import { CreateOrderDto } from './dto/createOrderDto';
@@ -12,13 +12,13 @@ import { UpdateOrderStatusDto } from './dto/updateOrderStatusDto';
 import { OrderStatus } from 'src/common/enums/orderStatus.enum';
 
 @Injectable()
-export class OrdersService {
+export class OrderService {
   constructor(
     @InjectRepository(Order)
     private readonly ordersRepository: Repository<Order>,
     @InjectRepository(OrderProduct)
     private readonly orderProductRepository: Repository<OrderProduct>,
-    private readonly productsService: ProductsService,
+    private readonly productsService: ProductService,
     @InjectEntityManager()
     private readonly entityManager: EntityManager,
   ) {}
@@ -53,7 +53,7 @@ export class OrdersService {
 
   async getById(id: number) {
     const order = await this.ordersRepository.findOne({
-      where: { order_id: id },
+      where: { orderId: id },
       relations: ['order_product'],
     });
 
@@ -68,7 +68,7 @@ export class OrdersService {
 
   async updateOrderStatus(dto: UpdateOrderStatusDto) {
     const order = await this.ordersRepository.findOne({
-      where: { order_id: dto.order_id },
+      where: { orderId: dto.order_id },
     });
     if (!order) {
       throw new NotFoundException(
@@ -77,45 +77,43 @@ export class OrdersService {
     }
     switch (dto.order_status) {
       case OrderStatus.Processing:
-        order.order_status = OrderStatus.Processing;
+        order.orderStatus = OrderStatus.Processing;
         break;
       case OrderStatus.Sent:
-        order.order_status = OrderStatus.Sent;
+        order.orderStatus = OrderStatus.Sent;
         break;
       case OrderStatus.Aborted:
-        order.order_status = OrderStatus.Aborted;
+        order.orderStatus = OrderStatus.Aborted;
         break;
       default:
-        order.order_status = OrderStatus.Created;
+        order.orderStatus = OrderStatus.Created;
     }
     await this.ordersRepository.update(dto.order_id, order);
     return {
-      message: `Order ${dto.order_id}'s status has been updated to '${order.order_status}' status`,
+      message: `Order ${dto.order_id}'s status has been updated to '${order.orderStatus}' status`,
     };
   }
 
   async deleteOrder(dto: OrderProductDto) {
     const { order_id } = dto;
-    await this.entityManager.transaction(async (transactionalEntityManager) => {
-      const orderInOrderProductsTable = await transactionalEntityManager.find(
-        OrderProduct,
-        {
-          where: { order_id },
-        },
-      );
-      if (orderInOrderProductsTable.length < 1) {
-        throw new NotFoundException(`Order with id ${order_id} does not exist`);
-      }
-      const orderInOrdersTable = await transactionalEntityManager.findOne(
-        Order,
-        {
-          where: { order_id: dto.order_id },
-        },
-      );
-      if (!orderInOrdersTable) {
-        throw new NotFoundException(`Order with id ${order_id} does not exist`);
-      }
 
+    const orderInOrderProductsTable = await this.orderProductRepository.find({
+      where: { orderId: order_id },
+    });
+
+    if (orderInOrderProductsTable.length < 1) {
+      throw new NotFoundException(`Order with id ${order_id} does not exist`);
+    }
+
+    const orderInOrdersTable = await this.ordersRepository.findOne({
+      where: { orderId: dto.order_id },
+    });
+
+    if (!orderInOrdersTable) {
+      throw new NotFoundException(`Order with id ${order_id} does not exist`);
+    }
+
+    await this.entityManager.transaction(async (transactionalEntityManager) => {
       await transactionalEntityManager.remove(orderInOrderProductsTable);
       await transactionalEntityManager.remove(orderInOrdersTable);
     });

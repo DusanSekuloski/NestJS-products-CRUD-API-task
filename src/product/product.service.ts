@@ -5,28 +5,28 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Products } from 'src/entities/products.entity';
+import { Product } from 'src/entities/products.entity';
 import { Repository } from 'typeorm';
 import { CreateProductDto } from './dto/createProductDto';
 import { UpdateProductQuantityDto } from './dto/updateProductQuantityDto';
 import { UpdateNonQuantityProductDetailsDto } from './dto/updateNonQuantityProductDetailsDto';
-import { Categories } from 'src/entities/categories.entity';
+import { Category } from 'src/entities/categories.entity';
 import { plainToInstance } from 'class-transformer';
 import { GetProductDto } from './dto/getProductDto';
-import { OrderProductDto } from 'src/orders/dto/orderProductDto';
+import { OrderProductDto } from 'src/order/dto/orderProductDto';
 
 @Injectable()
-export class ProductsService {
+export class ProductService {
   constructor(
-    @InjectRepository(Products)
-    private readonly productsRepository: Repository<Products>,
-    @InjectRepository(Categories)
-    private readonly categoriesRepository: Repository<Categories>,
+    @InjectRepository(Product)
+    private readonly productsRepository: Repository<Product>,
+    @InjectRepository(Category)
+    private readonly categoriesRepository: Repository<Category>,
   ) {}
 
   async create(createProductDto: CreateProductDto) {
     const category = await this.categoriesRepository.findOne({
-      where: { category_id: createProductDto.category_id },
+      where: { categoryId: createProductDto.category_id },
     });
     if (!category) {
       throw new NotFoundException(
@@ -65,7 +65,7 @@ export class ProductsService {
     updateNonQuantityProductDetailsDto: UpdateNonQuantityProductDetailsDto,
   ) {
     const category = await this.categoriesRepository.findOne({
-      where: { category_id: updateNonQuantityProductDetailsDto.category_id },
+      where: { categoryId: updateNonQuantityProductDetailsDto.category_id },
     });
     if (!category) {
       throw new NotFoundException(
@@ -104,12 +104,12 @@ export class ProductsService {
           `Product with id ${product.product_id} not found`,
         );
       }
-      if (existingProduct.product_quantity < product.product_quantity) {
+      if (existingProduct.productQuantity < product.product_quantity) {
         throw new BadRequestException(
           `Inserted quantity amount for product with id ${product.product_id} is not available`,
         );
       }
-      if (existingProduct.product_price != product.product_price) {
+      if (existingProduct.productPrice != product.product_price) {
         throw new ConflictException(`Wrong product price`);
       }
     }

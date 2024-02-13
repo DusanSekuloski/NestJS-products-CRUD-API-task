@@ -1,16 +1,16 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Categories } from 'src/entities/categories.entity';
+import { Category } from 'src/entities/categories.entity';
 import { Repository } from 'typeorm';
 import { CreateCategoryDto, UpdateCategoryDto } from './dto/createCategoryDto';
 import { plainToInstance } from 'class-transformer';
 import { GetCategoryDto } from './dto/getCategoryDto';
 
 @Injectable()
-export class CategoriesService {
+export class CategoryService {
   constructor(
-    @InjectRepository(Categories)
-    private readonly categoriesRepository: Repository<Categories>,
+    @InjectRepository(Category)
+    private readonly categoriesRepository: Repository<Category>,
   ) {}
 
   async create(createCategoryDto: CreateCategoryDto) {
@@ -25,7 +25,7 @@ export class CategoriesService {
 
   async getById(category_id: number) {
     const category = await this.categoriesRepository.findOne({
-      where: { category_id: category_id },
+      where: { categoryId: category_id },
       relations: ['products'],
     });
 
