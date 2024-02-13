@@ -40,7 +40,7 @@ export class OrderController {
     @Param('id') id: number,
     @Body() dto: UpdateOrderStatusDto,
   ) {
-    dto.order_id = id;
+    dto.orderId = id;
     const updatedOrderStatus = await this.ordersService.updateOrderStatus(dto);
     return {
       statusCode: 200,
@@ -49,7 +49,7 @@ export class OrderController {
   }
   @Delete('delete/:id')
   async deleteOrder(@Param('id') id: number, @Body() dto: OrderProductDto) {
-    dto.order_id = id;
+    dto.orderId = id;
     const deletedOrder = await this.ordersService.deleteOrder(dto);
     return {
       message: deletedOrder.message,

@@ -5,17 +5,17 @@ import { IsDate, IsNumber, IsString } from 'class-validator';
 export class ResponseCategoryDto {
   @Expose()
   @IsNumber()
-  category_id: number;
+  categoryId: number;
 
   @IsString()
   @Expose()
-  category_name: string;
+  categoryName: string;
 
   @IsDate()
   @Expose()
-  created_at: Date;
+  createdAt: Date;
 
   @IsDate()
   @Expose()
-  updated_at: Date;
+  updatedAt: Date;
 }

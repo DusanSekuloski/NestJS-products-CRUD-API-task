@@ -4,7 +4,7 @@ import { Optional } from '@nestjs/common';
 
 export class CreateOrderDto {
   @Optional()
-  order_id: number;
+  orderId: number;
 
   @IsNotEmpty()
   orderProducts: OrderProductDto[];

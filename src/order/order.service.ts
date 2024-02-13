@@ -27,7 +27,7 @@ export class OrderService {
     await this.productsService.checkIfProductsExist(dto.orderProducts);
     let totalAmount: number = 0;
     dto.orderProducts.forEach((product) => {
-      totalAmount += product.product_price * product.product_quantity;
+      totalAmount += product.productPrice * product.productQuantity;
     });
     const order = {
       user_id: userId,
@@ -68,14 +68,14 @@ export class OrderService {
 
   async updateOrderStatus(dto: UpdateOrderStatusDto) {
     const order = await this.ordersRepository.findOne({
-      where: { orderId: dto.order_id },
+      where: { orderId: dto.orderId },
     });
     if (!order) {
       throw new NotFoundException(
-        `Order with id ${dto.order_id} does not exist`,
+        `Order with id ${dto.orderId} does not exist`,
       );
     }
-    switch (dto.order_status) {
+    switch (dto.orderStatus) {
       case OrderStatus.Processing:
         order.orderStatus = OrderStatus.Processing;
         break;
@@ -88,14 +88,14 @@ export class OrderService {
       default:
         order.orderStatus = OrderStatus.Created;
     }
-    await this.ordersRepository.update(dto.order_id, order);
+    await this.ordersRepository.update(dto.orderId, order);
     return {
-      message: `Order ${dto.order_id}'s status has been updated to '${order.orderStatus}' status`,
+      message: `Order ${dto.orderId}'s status has been updated to '${order.orderStatus}' status`,
     };
   }
 
   async deleteOrder(dto: OrderProductDto) {
-    const { order_id } = dto;
+    const { orderId: order_id } = dto;
 
     const orderInOrderProductsTable = await this.orderProductRepository.find({
       where: { orderId: order_id },
@@ -106,7 +106,7 @@ export class OrderService {
     }
 
     const orderInOrdersTable = await this.ordersRepository.findOne({
-      where: { orderId: dto.order_id },
+      where: { orderId: dto.orderId },
     });
 
     if (!orderInOrdersTable) {

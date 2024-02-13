@@ -4,8 +4,8 @@ import { IsNumber } from 'class-validator';
 export class ResponseOrderProductDto {
   @IsNumber()
   @Expose()
-  product_id: number;
+  productId: number;
 
   @Exclude()
-  order_id: number;
+  orderId: number;
 }

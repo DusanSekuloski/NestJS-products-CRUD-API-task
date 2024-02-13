@@ -3,19 +3,19 @@ import { User } from 'src/entities/users.entity';
 export class GetUserDto {
   id: number;
 
-  first_name: string;
+  firstName: string;
 
-  last_name: string;
+  lastName: string;
 
   email: string;
 
-  created_at: Date;
+  createdAt: Date;
 
   constructor(user: User) {
     this.id = user.id;
-    this.first_name = user.firstName;
-    this.last_name = user.lastName;
+    this.firstName = user.firstName;
+    this.lastName = user.lastName;
     this.email = user.email;
-    this.created_at = user.createdAt;
+    this.createdAt = user.createdAt;
   }
 }

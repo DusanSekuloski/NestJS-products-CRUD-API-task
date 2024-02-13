@@ -7,7 +7,7 @@ export class UpdateNonQuantityProductDetailsDto {
 
   @IsOptional()
   @IsString()
-  short_description: string;
+  shortDescription: string;
 
   @IsOptional()
   @IsString()
@@ -15,9 +15,9 @@ export class UpdateNonQuantityProductDetailsDto {
 
   @IsOptional()
   @IsNumber()
-  product_price: number;
+  productPrice: number;
 
   @IsOptional()
   @IsNumber()
-  category_id: number;
+  categoryId: number;
 }

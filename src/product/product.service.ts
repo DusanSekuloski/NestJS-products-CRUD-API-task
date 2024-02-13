@@ -26,7 +26,7 @@ export class ProductService {
 
   async create(createProductDto: CreateProductDto) {
     const category = await this.categoriesRepository.findOne({
-      where: { categoryId: createProductDto.category_id },
+      where: { categoryId: createProductDto.categoryId },
     });
     if (!category) {
       throw new NotFoundException(
@@ -65,7 +65,7 @@ export class ProductService {
     updateNonQuantityProductDetailsDto: UpdateNonQuantityProductDetailsDto,
   ) {
     const category = await this.categoriesRepository.findOne({
-      where: { categoryId: updateNonQuantityProductDetailsDto.category_id },
+      where: { categoryId: updateNonQuantityProductDetailsDto.categoryId },
     });
     if (!category) {
       throw new NotFoundException(
@@ -96,20 +96,20 @@ export class ProductService {
     for (const product of inputData) {
       const existingProduct = await this.productsRepository.findOne({
         where: {
-          id: product.product_id,
+          id: product.productId,
         },
       });
       if (!existingProduct) {
         throw new NotFoundException(
-          `Product with id ${product.product_id} not found`,
+          `Product with id ${product.productId} not found`,
         );
       }
-      if (existingProduct.productQuantity < product.product_quantity) {
+      if (existingProduct.productQuantity < product.productQuantity) {
         throw new BadRequestException(
-          `Inserted quantity amount for product with id ${product.product_id} is not available`,
+          `Inserted quantity amount for product with id ${product.productId} is not available`,
         );
       }
-      if (existingProduct.productPrice != product.product_price) {
+      if (existingProduct.productPrice != product.productPrice) {
         throw new ConflictException(`Wrong product price`);
       }
     }

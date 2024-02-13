@@ -30,8 +30,8 @@ describe('AuthController', () => {
   it('should register a user', () => {
     expect(
       controller.registerUser({
-        first_name: 'Dulo',
-        last_name: 'Sekuloski',
+        firstName: 'Dulo',
+        lastName: 'Sekuloski',
         email: 'dulko@gmail.com',
         password: 'qwerty123',
       }),

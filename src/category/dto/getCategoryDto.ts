@@ -5,19 +5,19 @@ import { ResponseProductDto } from 'src/product/dto/responseProductDto';
 export class GetCategoryDto {
   @Expose()
   @IsNumber()
-  category_id: number;
+  categoryId: number;
 
   @IsString()
   @Expose()
-  category_name: string;
+  categoryName: string;
 
   @IsDate()
   @Expose()
-  created_at: Date;
+  createdAt: Date;
 
   @IsDate()
   @Expose()
-  updated_at: Date;
+  updatedAt: Date;
 
   @Expose()
   @Type(() => ResponseProductDto)

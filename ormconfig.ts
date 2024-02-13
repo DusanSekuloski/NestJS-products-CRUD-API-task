@@ -1,8 +1,8 @@
 import { Category } from 'src/entities/categories.entity';
-import { OrderProduct } from 'src/entities/order_product.entity';
 import { Order } from 'src/entities/orders.entity';
 import { Product } from 'src/entities/products.entity';
 import { User } from 'src/entities/users.entity';
+import { OrderProduct } from './src/entities/order_products.entity';
 import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions';
 
 const config: PostgresConnectionOptions = {

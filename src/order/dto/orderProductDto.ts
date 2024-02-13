@@ -3,17 +3,17 @@ import { IsNumber, IsOptional } from 'class-validator';
 export class OrderProductDto {
   @IsOptional()
   @IsNumber()
-  order_id: number;
+  orderId: number;
 
   @IsOptional()
   @IsNumber()
-  product_id: number;
+  productId: number;
 
   @IsOptional()
   @IsNumber()
-  product_price: number;
+  productPrice: number;
 
   @IsOptional()
   @IsNumber()
-  product_quantity: number;
+  productQuantity: number;
 }

@@ -12,7 +12,7 @@ export class ResponseProductDto {
 
   @IsString()
   @Expose()
-  short_description: string;
+  shortDescription: string;
 
   @IsString()
   @Expose()
@@ -20,17 +20,17 @@ export class ResponseProductDto {
 
   @IsNumber()
   @Expose()
-  product_price: number;
+  productPrice: number;
 
   @IsNumber()
   @Expose()
-  product_quantity: number;
+  productQuantity: number;
 
   @Expose()
   @IsDate()
-  created_at: Date;
+  createdAt: Date;
 
   @Expose()
   @IsDate()
-  updated_at: Date;
+  updatedAt: Date;
 }

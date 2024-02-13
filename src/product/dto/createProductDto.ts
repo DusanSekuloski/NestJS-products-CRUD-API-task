@@ -5,17 +5,17 @@ export class CreateProductDto {
   name: string;
 
   @IsString()
-  short_description: string;
+  shortDescription: string;
 
   @IsString()
   description: string;
 
   @IsNumber()
-  product_price: number;
+  productPrice: number;
 
   @IsNumber()
-  product_quantity: number;
+  productQuantity: number;
 
   @IsNumber()
-  category_id: number;
+  categoryId: number;
 }

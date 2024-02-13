@@ -3,9 +3,9 @@ import { IsNumber, IsOptional, IsString } from 'class-validator';
 export class UpdateOrderStatusDto {
   @IsString()
   @IsOptional()
-  order_status: string;
+  orderStatus: string;
 
   @IsNumber()
   @IsOptional()
-  order_id: number;
+  orderId: number;
 }

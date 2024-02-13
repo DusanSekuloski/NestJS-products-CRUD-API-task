@@ -5,29 +5,29 @@ import { ResponseOrderProductDto } from './responseOrderProductDto';
 export class GetOrderDto {
   @IsNumber()
   @Expose()
-  order_id: number;
+  orderId: number;
 
   @IsNumber()
   @Expose()
-  user_id: number;
+  userId: number;
 
   @IsNumber()
   @Expose()
-  total_amount: number;
+  totalAmount: number;
 
   @IsString()
   @Expose()
-  order_status: string;
+  orderStatus: string;
 
   @IsDate()
   @Expose()
-  created_at: Date;
+  createdAt: Date;
 
   @IsDate()
   @Expose()
-  updated_at: Date;
+  updatedAt: Date;
 
   @Expose()
   @Type(() => ResponseOrderProductDto)
-  order_product: ResponseOrderProductDto[];
+  orderProduct: ResponseOrderProductDto[];
 }
