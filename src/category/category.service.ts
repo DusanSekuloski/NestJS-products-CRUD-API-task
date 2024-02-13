@@ -10,22 +10,22 @@ import { GetCategoryDto } from './dto/getCategoryDto';
 export class CategoryService {
   constructor(
     @InjectRepository(Category)
-    private readonly categoriesRepository: Repository<Category>,
+    private readonly categoryRepository: Repository<Category>,
   ) {}
 
   async create(createCategoryDto: CreateCategoryDto) {
     const categoryName =
-      await this.categoriesRepository.create(createCategoryDto);
-    await this.categoriesRepository.save(categoryName);
+      await this.categoryRepository.create(createCategoryDto);
+    await this.categoryRepository.save(categoryName);
   }
 
   async getAll() {
-    return await this.categoriesRepository.find();
+    return await this.categoryRepository.find();
   }
 
-  async getById(category_id: number) {
-    const category = await this.categoriesRepository.findOne({
-      where: { categoryId: category_id },
+  async getById(categoryId: number) {
+    const category = await this.categoryRepository.findOne({
+      where: { categoryId: categoryId },
       relations: ['products'],
     });
 
@@ -37,16 +37,13 @@ export class CategoryService {
     });
   }
 
-  async update(category_id: number, updateCategoryDto: UpdateCategoryDto) {
-    await this.getById(category_id);
-    return await this.categoriesRepository.update(
-      category_id,
-      updateCategoryDto,
-    );
+  async update(categoryId: number, updateCategoryDto: UpdateCategoryDto) {
+    await this.getById(categoryId);
+    return await this.categoryRepository.update(categoryId, updateCategoryDto);
   }
 
-  async delete(category_id: number) {
-    await this.getById(category_id);
-    await this.categoriesRepository.delete(category_id);
+  async delete(categoryId: number) {
+    await this.getById(categoryId);
+    await this.categoryRepository.delete(categoryId);
   }
 }

@@ -5,7 +5,8 @@ import { JwtService } from '@nestjs/jwt';
 import { UserService } from '../user/user.service';
 
 describe('AuthController', () => {
-  let controller: AuthController;
+  let authController: AuthController;
+  let userService: UserService;
 
   const mockAuth = {
     registerUser: jest.fn((dto) => {
@@ -24,12 +25,13 @@ describe('AuthController', () => {
       .overrideProvider(AuthService)
       .useValue(mockAuth)
       .compile();
-    controller = module.get<AuthController>(AuthController);
+    authController = module.get<AuthController>(AuthController);
+    userService = module.get<UserService>(UserService);
   });
 
   it('should register a user', () => {
     expect(
-      controller.registerUser({
+      authController.registerUser({
         firstName: 'Dulo',
         lastName: 'Sekuloski',
         email: 'dulko@gmail.com',

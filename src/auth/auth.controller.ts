@@ -9,7 +9,7 @@ import { RefreshJwtGuard } from './guards/refresh-jwt.guard';
 export class AuthController {
   constructor(
     private authService: AuthService,
-    private usersService: UserService,
+    private userService: UserService,
   ) {}
 
   @UseGuards(LocalAuthGuard)
@@ -20,13 +20,13 @@ export class AuthController {
 
   @Post('register')
   async registerUser(@Body() createUserDto: CreateUserDto) {
-    const existingUser = await this.usersService.findByEmail(
+    const existingUser = await this.userService.findByEmail(
       createUserDto.email,
     );
     if (existingUser) {
       return { status: 'Error: that email already exists', statusCode: 409 };
     }
-    await this.usersService.register(createUserDto);
+    await this.userService.register(createUserDto);
     return { status: 'User registered successfully', statusCode: 201 };
   }
 

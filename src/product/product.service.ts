@@ -19,13 +19,13 @@ import { OrderProductDto } from 'src/order/dto/orderProductDto';
 export class ProductService {
   constructor(
     @InjectRepository(Product)
-    private readonly productsRepository: Repository<Product>,
+    private readonly productRepository: Repository<Product>,
     @InjectRepository(Category)
-    private readonly categoriesRepository: Repository<Category>,
+    private readonly categoryRepository: Repository<Category>,
   ) {}
 
   async create(createProductDto: CreateProductDto) {
-    const category = await this.categoriesRepository.findOne({
+    const category = await this.categoryRepository.findOne({
       where: { categoryId: createProductDto.categoryId },
     });
     if (!category) {
@@ -33,12 +33,12 @@ export class ProductService {
         'Cannot create product, category with that id does not exist',
       );
     }
-    const newProduct = await this.productsRepository.create(createProductDto);
-    await this.productsRepository.save(newProduct);
+    const newProduct = await this.productRepository.create(createProductDto);
+    await this.productRepository.save(newProduct);
   }
 
   async getAll(options) {
-    const allProducts = await this.productsRepository.find(options);
+    const allProducts = await this.productRepository.find(options);
 
     return plainToInstance(GetProductDto, allProducts, {
       excludeExtraneousValues: true,
@@ -46,7 +46,7 @@ export class ProductService {
   }
 
   async getById(id: number) {
-    const product = await this.productsRepository.findOne({
+    const product = await this.productRepository.findOne({
       where: { id: id },
       relations: ['category'],
     });
@@ -64,7 +64,7 @@ export class ProductService {
     id: number,
     updateNonQuantityProductDetailsDto: UpdateNonQuantityProductDetailsDto,
   ) {
-    const category = await this.categoriesRepository.findOne({
+    const category = await this.categoryRepository.findOne({
       where: { categoryId: updateNonQuantityProductDetailsDto.categoryId },
     });
     if (!category) {
@@ -73,7 +73,7 @@ export class ProductService {
       );
     }
     await this.getById(id);
-    return await this.productsRepository.update(
+    return await this.productRepository.update(
       id,
       updateNonQuantityProductDetailsDto,
     );
@@ -84,17 +84,17 @@ export class ProductService {
     updateProductQuantityDto: UpdateProductQuantityDto,
   ) {
     await this.getById(id);
-    return await this.productsRepository.update(id, updateProductQuantityDto);
+    return await this.productRepository.update(id, updateProductQuantityDto);
   }
 
   async delete(id: number) {
     await this.getById(id);
-    await this.productsRepository.delete(id);
+    await this.productRepository.delete(id);
   }
 
   async checkIfProductsExist(inputData: OrderProductDto[]) {
     for (const product of inputData) {
-      const existingProduct = await this.productsRepository.findOne({
+      const existingProduct = await this.productRepository.findOne({
         where: {
           id: product.productId,
         },

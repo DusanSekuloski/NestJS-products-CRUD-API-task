@@ -10,20 +10,20 @@ import { GetUserDto } from './dto/getUserDto';
 export class UserService {
   constructor(
     @InjectRepository(User)
-    private readonly usersRepository: Repository<User>,
+    private readonly userRepository: Repository<User>,
   ) {}
 
   async register(createUserDto: CreateUserDto) {
-    const newUser = await this.usersRepository.create(createUserDto);
-    await this.usersRepository.save(newUser);
+    const newUser = await this.userRepository.create(createUserDto);
+    await this.userRepository.save(newUser);
   }
 
   async findByEmail(email: string): Promise<User | undefined> {
-    return this.usersRepository.findOne({ where: { email } });
+    return this.userRepository.findOne({ where: { email } });
   }
 
   async getById(id: number) {
-    const oneUser = await this.usersRepository.findOne({
+    const oneUser = await this.userRepository.findOne({
       where: { id: id },
     });
     if (!oneUser) {
@@ -35,17 +35,17 @@ export class UserService {
   }
 
   async getAll() {
-    const allUsers = await this.usersRepository.find();
-    const usersDto = allUsers.map((user) => new GetUserDto(user));
-    return usersDto;
+    const allUsers = await this.userRepository.find();
+    const userDto = allUsers.map((user) => new GetUserDto(user));
+    return userDto;
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
-    return await this.usersRepository.update(id, updateUserDto);
+    return await this.userRepository.update(id, updateUserDto);
   }
 
   async delete(id: number) {
     await this.getById(id);
-    await this.usersRepository.delete(id);
+    await this.userRepository.delete(id);
   }
 }

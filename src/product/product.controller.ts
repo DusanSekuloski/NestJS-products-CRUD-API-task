@@ -16,23 +16,23 @@ import { JwtGuard } from 'src/auth/guards/jwt-auth.guard';
 
 @Controller('products')
 export class ProductController {
-  constructor(private readonly productsService: ProductService) {}
+  constructor(private readonly productService: ProductService) {}
 
   @UseGuards(JwtGuard)
   @Post()
   async createProduct(@Body() createProductDto: CreateProductDto) {
-    await this.productsService.create(createProductDto);
+    await this.productService.create(createProductDto);
     return { status: 'Product created successfully', statusCode: 201 };
   }
 
   @Get()
   async getAllProducts() {
-    return this.productsService.getAll({ relations: ['category'] });
+    return this.productService.getAll({ relations: ['category'] });
   }
 
   @Get(':id')
   async getProductById(@Param('id') id: number) {
-    return this.productsService.getById(id);
+    return this.productService.getById(id);
   }
   @UseGuards(JwtGuard)
   @Put(':id')
@@ -41,7 +41,7 @@ export class ProductController {
     @Body()
     updateNonQuantityProductDetailsDto: UpdateNonQuantityProductDetailsDto,
   ) {
-    await this.productsService.updateNonQuantityProductInfo(
+    await this.productService.updateNonQuantityProductInfo(
       id,
       updateNonQuantityProductDetailsDto,
     );
@@ -57,7 +57,7 @@ export class ProductController {
     @Body()
     updateProductQuantityDto: UpdateProductQuantityDto,
   ) {
-    await this.productsService.updateProductQuantityInfo(
+    await this.productService.updateProductQuantityInfo(
       id,
       updateProductQuantityDto,
     );
@@ -69,7 +69,7 @@ export class ProductController {
 
   @Delete(':id')
   async deleteProduct(@Param('id') id: number) {
-    await this.productsService.delete(id);
+    await this.productService.delete(id);
     return {
       status: 'Product deleted successfully',
       statusCode: 204,
