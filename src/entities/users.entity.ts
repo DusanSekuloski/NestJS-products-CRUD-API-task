@@ -7,7 +7,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
-import { Order } from './orders.entity';
+import { Order } from '../entities/orders.entity';
 
 @Entity('users')
 export class User {

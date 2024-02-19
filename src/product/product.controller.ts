@@ -8,11 +8,11 @@ import {
   Put,
   UseGuards,
 } from '@nestjs/common';
-import { CreateProductDto } from './dto/createProductDto';
-import { UpdateProductQuantityDto } from './dto/updateProductQuantityDto';
-import { UpdateNonQuantityProductDetailsDto } from './dto/updateNonQuantityProductDetailsDto';
-import { ProductService } from './product.service';
-import { JwtGuard } from 'src/auth/guards/jwt-auth.guard';
+import { CreateProductDto } from '../product/dto/createProductDto';
+import { UpdateProductQuantityDto } from '../product/dto/updateProductQuantityDto';
+import { UpdateNonQuantityProductDetailsDto } from '../product/dto/updateNonQuantityProductDetailsDto';
+import { ProductService } from '../product/product.service';
+import { JwtGuard } from '../auth/guards/jwt-auth.guard';
 
 @Controller('products')
 export class ProductController {

@@ -9,12 +9,12 @@ import {
   Req,
   UseGuards,
 } from '@nestjs/common';
-import { OrderService } from './order.service';
-import { JwtGuard } from 'src/auth/guards/jwt-auth.guard';
-import { RequestWithUser } from 'src/common/interfaces/userRequest.interface';
-import { CreateOrderDto } from './dto/createOrderDto';
-import { OrderProductDto } from './dto/orderProductDto';
-import { UpdateOrderStatusDto } from './dto/updateOrderStatusDto';
+import { OrderService } from '../order/order.service';
+import { JwtGuard } from '../auth/guards/jwt-auth.guard';
+import { RequestWithUser } from '../common/interfaces/userRequest.interface';
+import { CreateOrderDto } from '../order/dto/createOrderDto';
+import { OrderProductDto } from '../order/dto/orderProductDto';
+import { UpdateOrderStatusDto } from '../order/dto/updateOrderStatusDto';
 
 @Controller('orders')
 export class OrderController {

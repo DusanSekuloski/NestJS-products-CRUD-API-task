@@ -6,15 +6,14 @@ import { UserService } from '../user/user.service';
 
 describe('AuthController', () => {
   let authController: AuthController;
-  let userService: UserService;
 
-  const mockAuth = {
-    registerUser: jest.fn((dto) => {
-      return {
-        id: Date.now(),
-        ...dto,
-      };
-    }),
+  const mockUserService = {
+    findByEmail: jest.fn(),
+    register: jest.fn(),
+    getById: jest.fn(),
+    getAll: jest.fn(),
+    update: jest.fn(),
+    delete: jest.fn(),
   };
 
   beforeEach(async () => {
@@ -22,24 +21,23 @@ describe('AuthController', () => {
       controllers: [AuthController],
       providers: [AuthService, JwtService, UserService],
     })
-      .overrideProvider(AuthService)
-      .useValue(mockAuth)
+      .overrideProvider(UserService)
+      .useValue(mockUserService)
       .compile();
     authController = module.get<AuthController>(AuthController);
-    userService = module.get<UserService>(UserService);
   });
 
-  it('should register a user', () => {
-    expect(
-      authController.registerUser({
-        firstName: 'Dulo',
-        lastName: 'Sekuloski',
-        email: 'dulko@gmail.com',
-        password: 'qwerty123',
-      }),
-    ).toEqual({
+  it('register => should register a user', async () => {
+    const dto = {
+      firstName: 'Dulo',
+      lastName: 'Sekuloski',
       email: 'dulko@gmail.com',
       password: 'qwerty123',
+    };
+
+    expect(await authController.registerUser(dto)).toEqual({
+      status: 'User registered successfully',
+      statusCode: 201,
     });
   });
 });

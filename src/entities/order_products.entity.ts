@@ -1,6 +1,6 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
-import { Product } from './products.entity';
-import { Order } from './orders.entity';
+import { Product } from '../entities/products.entity';
+import { Order } from '../entities/orders.entity';
 
 @Entity('order_products')
 export class OrderProduct {

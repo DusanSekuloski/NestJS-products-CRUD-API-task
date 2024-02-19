@@ -1,6 +1,6 @@
 import { Expose, Type } from 'class-transformer';
 import { IsDate, IsNumber, IsString } from 'class-validator';
-import { ResponseOrderProductDto } from './responseOrderProductDto';
+import { ResponseOrderProductDto } from '../dto/responseOrderProductDto';
 
 export class GetOrderDto {
   @IsNumber()

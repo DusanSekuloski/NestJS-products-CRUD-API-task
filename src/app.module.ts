@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { AppController } from '../src/app.controller';
+import { AppService } from '../src/app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserModule } from './user/user.module';
-import { ProductModule } from './product/product.module';
-import { CategoryModule } from './category/category.module';
-import { AuthModule } from './auth/auth.module';
-import { OrderModule } from './order/order.module';
+import { UserModule } from '../src/user/user.module';
+import { ProductModule } from '../src/product/product.module';
+import { CategoryModule } from '../src/category/category.module';
+import { AuthModule } from '../src/auth/auth.module';
+import { OrderModule } from '../src/order/order.module';
 import config from 'ormconfig';
 
 @Module({

@@ -1,5 +1,5 @@
 import { IsNotEmpty } from 'class-validator';
-import { OrderProductDto } from './orderProductDto';
+import { OrderProductDto } from '../dto/orderProductDto';
 import { Optional } from '@nestjs/common';
 
 export class CreateOrderDto {

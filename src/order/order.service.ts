@@ -1,15 +1,15 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectEntityManager, InjectRepository } from '@nestjs/typeorm';
-import { Order } from 'src/entities/orders.entity';
+import { Order } from '../entities/orders.entity';
 import { EntityManager, Repository } from 'typeorm';
-import { ProductService } from 'src/product/product.service';
-import { OrderProduct } from 'src/entities/order_products.entity';
+import { ProductService } from '../product/product.service';
+import { OrderProduct } from '../entities/order_products.entity';
 import { plainToInstance } from 'class-transformer';
-import { GetOrderDto } from './dto/getOrderDto';
-import { CreateOrderDto } from './dto/createOrderDto';
-import { OrderProductDto } from './dto/orderProductDto';
-import { UpdateOrderStatusDto } from './dto/updateOrderStatusDto';
-import { OrderStatus } from 'src/common/enums/orderStatus.enum';
+import { GetOrderDto } from '../order/dto/getOrderDto';
+import { CreateOrderDto } from '../order/dto/createOrderDto';
+import { OrderProductDto } from '../order/dto/orderProductDto';
+import { UpdateOrderStatusDto } from '../order/dto/updateOrderStatusDto';
+import { OrderStatus } from '../common/enums/orderStatus.enum';
 
 @Injectable()
 export class OrderService {

@@ -9,8 +9,8 @@ import {
   UpdateDateColumn,
   ValueTransformer,
 } from 'typeorm';
-import { Category } from './categories.entity';
-import { OrderProduct } from './order_products.entity';
+import { Category } from '../entities/categories.entity';
+import { OrderProduct } from '../entities/order_products.entity';
 
 const numberTransformer: ValueTransformer = {
   to: (entityValue: number) => entityValue,

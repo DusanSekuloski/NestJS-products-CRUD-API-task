@@ -5,15 +5,15 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Product } from 'src/entities/products.entity';
+import { Product } from '../entities/products.entity';
 import { Repository } from 'typeorm';
-import { CreateProductDto } from './dto/createProductDto';
-import { UpdateProductQuantityDto } from './dto/updateProductQuantityDto';
-import { UpdateNonQuantityProductDetailsDto } from './dto/updateNonQuantityProductDetailsDto';
-import { Category } from 'src/entities/categories.entity';
+import { CreateProductDto } from '../product/dto/createProductDto';
+import { UpdateProductQuantityDto } from '../product/dto/updateProductQuantityDto';
+import { UpdateNonQuantityProductDetailsDto } from '../product/dto/updateNonQuantityProductDetailsDto';
+import { Category } from '../entities/categories.entity';
 import { plainToInstance } from 'class-transformer';
-import { GetProductDto } from './dto/getProductDto';
-import { OrderProductDto } from 'src/order/dto/orderProductDto';
+import { GetProductDto } from '../product/dto/getProductDto';
+import { OrderProductDto } from '../order/dto/orderProductDto';
 
 @Injectable()
 export class ProductService {
