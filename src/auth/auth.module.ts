@@ -1,17 +1,17 @@
 import { Module } from '@nestjs/common';
-import { AuthService } from './auth.service';
-import { AuthController } from './auth.controller';
-import { UsersService } from 'src/users/users.service';
+import { AuthService } from '../auth/auth.service';
+import { AuthController } from '../auth/auth.controller';
+import { UserService } from '../user/user.service';
 import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Users } from 'src/entities/users.entity';
-import { LocalStrategy } from './strategies/local-strategy';
-import { JwtStrategy } from './strategies/jwt-strategy';
-import { RefreshJwtStrategy } from './strategies/refreshToken-strategy';
+import { User } from '../entities/users.entity';
+import { LocalStrategy } from '../auth/strategies/local-strategy';
+import { JwtStrategy } from '../auth/strategies/jwt-strategy';
+import { RefreshJwtStrategy } from '../auth/strategies/refreshToken-strategy';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Users]),
+    TypeOrmModule.forFeature([User]),
     JwtModule.register({
       secret: process.env.ACCESS_TOKEN_SECRET,
     }),
@@ -21,7 +21,7 @@ import { RefreshJwtStrategy } from './strategies/refreshToken-strategy';
   ],
   providers: [
     AuthService,
-    UsersService,
+    UserService,
     LocalStrategy,
     JwtStrategy,
     RefreshJwtStrategy,

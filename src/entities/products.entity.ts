@@ -9,58 +9,64 @@ import {
   UpdateDateColumn,
   ValueTransformer,
 } from 'typeorm';
-import { Categories } from './categories.entity';
-import { OrderProduct } from './order_product.entity';
+import { Category } from '../entities/categories.entity';
+import { OrderProduct } from '../entities/order_products.entity';
 
 const numberTransformer: ValueTransformer = {
   to: (entityValue: number) => entityValue,
   from: (databaseValue: string) => parseFloat(databaseValue),
 };
 
-@Entity()
-export class Products {
+@Entity('products')
+export class Product {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column({ nullable: false })
   name: string;
 
-  @Column({ type: 'text', nullable: false })
-  short_description: string;
+  @Column({ name: 'short_description', type: 'text', nullable: false })
+  shortDescription: string;
 
   @Column({ type: 'text', nullable: false })
   description: string;
 
   @Column({
+    name: 'product_prices',
     type: 'decimal',
     precision: 10,
     scale: 2,
     nullable: false,
     transformer: numberTransformer,
   })
-  product_price: number;
+  productPrice: number;
 
-  @Column({ nullable: false })
-  product_quantity: number;
+  @Column({ name: 'product_quantity', nullable: false })
+  productQuantity: number;
 
-  @ManyToOne(() => Categories, (categories) => categories.products)
+  @ManyToOne(() => Category, (categories) => categories.products)
   @JoinColumn({ name: 'category_id' })
-  category: Categories;
+  category: Category;
 
   @Column({ name: 'category_id' })
-  category_id: number;
+  categoryId: number;
 
-  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  created_at: Date;
-
-  @UpdateDateColumn({
+  @CreateDateColumn({
+    name: 'created_at',
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP',
   })
-  updated_at: Date;
+  createdAt: Date;
+
+  @UpdateDateColumn({
+    name: 'updated_at',
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  updatedAt: Date;
 
   @OneToMany(() => OrderProduct, (orderProduct) => orderProduct.product, {
     cascade: true,
   })
-  order_product: OrderProduct[];
+  orderProduct: OrderProduct[];
 }

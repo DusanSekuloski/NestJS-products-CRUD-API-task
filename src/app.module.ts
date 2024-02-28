@@ -1,22 +1,22 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { AppController } from '../src/app.controller';
+import { AppService } from '../src/app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UsersModule } from './users/users.module';
-import { ProductsModule } from './products/products.module';
-import { CategoriesModule } from './categories/categories.module';
-import { AuthModule } from './auth/auth.module';
-import { OrdersModule } from './orders/orders.module';
+import { UserModule } from '../src/user/user.module';
+import { ProductModule } from '../src/product/product.module';
+import { CategoryModule } from '../src/category/category.module';
+import { AuthModule } from '../src/auth/auth.module';
+import { OrderModule } from '../src/order/order.module';
 import config from 'ormconfig';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot(config),
-    UsersModule,
-    ProductsModule,
-    CategoriesModule,
+    UserModule,
+    ProductModule,
+    CategoryModule,
     AuthModule,
-    OrdersModule,
+    OrderModule,
   ],
   controllers: [AppController],
   providers: [AppService],
