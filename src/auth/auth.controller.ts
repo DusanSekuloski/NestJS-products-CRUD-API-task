@@ -20,14 +20,7 @@ export class AuthController {
 
   @Post('register')
   async registerUser(@Body() createUserDto: CreateUserDto) {
-    const existingUser = await this.userService.findByEmail(
-      createUserDto.email,
-    );
-    if (existingUser) {
-      return { status: 'Error: that email already exists', statusCode: 409 };
-    }
     await this.userService.register(createUserDto);
-    return { status: 'User registered successfully', statusCode: 201 };
   }
 
   @UseGuards(RefreshJwtGuard)
