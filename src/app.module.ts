@@ -8,6 +8,7 @@ import { CategoryModule } from '../src/category/category.module';
 import { AuthModule } from '../src/auth/auth.module';
 import { OrderModule } from '../src/order/order.module';
 import config from 'ormconfig';
+import { MailModule } from './mail/mail.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import config from 'ormconfig';
     CategoryModule,
     AuthModule,
     OrderModule,
+    MailModule,
   ],
   controllers: [AppController],
   providers: [AppService],
