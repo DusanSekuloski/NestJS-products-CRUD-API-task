@@ -5,7 +5,7 @@ import { CreateUserDto } from '../user/dto/createUserDto';
 import { UserService } from '../user/user.service';
 import { RefreshJwtGuard } from '../auth/guards/refresh-jwt.guard';
 // import { MagicLoginLinkDto } from './dto/magicLinkLoginDto';
-//testing smth
+//testing smth123
 @Controller('auth')
 export class AuthController {
   constructor(
