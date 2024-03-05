@@ -4,6 +4,7 @@ import { LocalAuthGuard } from '../auth/guards/local-auth.guard';
 import { CreateUserDto } from '../user/dto/createUserDto';
 import { UserService } from '../user/user.service';
 import { RefreshJwtGuard } from '../auth/guards/refresh-jwt.guard';
+// import { MagicLoginLinkDto } from './dto/magicLinkLoginDto';
 
 @Controller('auth')
 export class AuthController {
@@ -13,10 +14,13 @@ export class AuthController {
   ) {}
 
   @UseGuards(LocalAuthGuard)
-  @Post('login')
-  async login(@Request() req) {
+  @Post('login-password')
+  async loginWithPassword(@Request() req) {
     return await this.authService.login(req.user);
   }
+  //TODO: Create this function
+  // @Post('login-magic-link')
+  // async loginWithMagicLink(@Body() dto: MagicLoginLinkDto) {}
 
   @Post('register')
   async registerUser(@Body() createUserDto: CreateUserDto) {

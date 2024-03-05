@@ -8,7 +8,8 @@ export class MagicLoginStrategy extends PassportStrategy(
   constructor() {
     super({
       secret: `${process.env.ACCESS_TOKEN_SECRET}`,
-      jwtOptions: { expiresIn: '5min' },
+      jwtOptions: { expiresIn: '30min' },
+      callbackUrl: `${process.env.CALLBACK_URL}`,
     });
   }
 }

@@ -19,6 +19,15 @@ export class AuthService {
     }
     return null;
   }
+  async magicValidateUser(email: string) {
+    const user = await this.userService.findByEmail(email);
+    if (user) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { password, ...result } = user;
+      return result;
+    }
+    return null;
+  }
 
   async login(user: User) {
     const { id, email } = user;
