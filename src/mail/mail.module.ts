@@ -4,9 +4,16 @@ import { MailService } from './mail.service';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { join } from 'path';
+import { AuthService } from '../auth/auth.service';
+import { UserService } from '../user/user.service';
+import { JwtService } from '@nestjs/jwt';
+import MagicLoginStrategy from 'passport-magic-login';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { User } from '../entities/users.entity';
 
 @Module({
   imports: [
+    TypeOrmModule.forFeature([User]),
     MailerModule.forRoot({
       transport: {
         host: process.env.MAIL_HOST,
@@ -28,6 +35,12 @@ import { join } from 'path';
     }),
   ],
   controllers: [MailController],
-  providers: [MailService],
+  providers: [
+    MailService,
+    AuthService,
+    UserService,
+    JwtService,
+    MagicLoginStrategy,
+  ],
 })
 export class MailModule {}
