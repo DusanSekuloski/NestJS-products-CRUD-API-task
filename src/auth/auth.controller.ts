@@ -36,7 +36,7 @@ export class AuthController {
   }
 
   @UseGuards(MagicLoginGuard)
-  @Get('login/callback')
+  @Get('login-magic-link/callback')
   callback(@Req() req) {
     return this.authService.createNewAccessToken(req.user);
   }
