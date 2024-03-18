@@ -19,6 +19,15 @@ export class AuthService {
     }
     return null;
   }
+  async magicValidateUser(email: string): Promise<Partial<User> | null> {
+    const user = await this.userService.findByEmail(email);
+    if (user) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { password, ...result } = user;
+      return result;
+    }
+    return null;
+  }
 
   async login(user: User) {
     const { id, email } = user;
@@ -40,7 +49,7 @@ export class AuthService {
     };
   }
 
-  async createNewAccessToken(user: User) {
+  createNewAccessToken(user: User) {
     const { email, id } = user;
     const payload = {
       id: user.id,
@@ -51,6 +60,19 @@ export class AuthService {
       id,
       accessToken: this.jwtService.sign(payload, {
         secret: process.env.ACCESS_TOKEN_SECRET,
+        expiresIn: '30m',
+      }),
+    };
+  }
+
+  createNewMagicLinkToken(user: Partial<User>) {
+    const payload = {
+      id: user.id,
+      email: user.email,
+    };
+    return {
+      magicLinkToken: this.jwtService.sign(payload, {
+        secret: process.env.MAGIC_LINK_TOKEN_SECRET,
         expiresIn: '30m',
       }),
     };

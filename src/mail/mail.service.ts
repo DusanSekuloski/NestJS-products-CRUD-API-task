@@ -1,27 +1,34 @@
 import { Injectable } from '@nestjs/common';
 import { ISendMailOptions, MailerService } from '@nestjs-modules/mailer';
-import { SendEmailDto } from './dto/sendEmailDto';
 import SMTPTransport from 'nodemailer/lib/smtp-transport';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable()
 export class MailService {
-  constructor(private readonly mailerService: MailerService) {}
+  constructor(
+    private readonly mailerService: MailerService,
+    private readonly authService: AuthService,
+  ) {}
 
-  async sendMail(dto: SendEmailDto): Promise<SMTPTransport.SentMessageInfo> {
-    const { from, recipients, subject } = dto;
+  async sendMailWithMagicLink(
+    destination: string,
+    href: string,
+  ): Promise<SMTPTransport.SentMessageInfo> {
+    await this.authService.magicValidateUser(destination);
 
     const options: ISendMailOptions = {
-      from: from ?? {
+      from: {
         name: process.env.APP_NAME,
         address: process.env.DEFAULT_NAME_FROM,
       },
-      to: recipients,
-      subject,
+      to: destination,
       template: 'welcome',
       context: {
-        info: dto,
+        destination,
+        href,
       },
     };
+
     try {
       const result: SMTPTransport.SentMessageInfo =
         await this.mailerService.sendMail(options);

@@ -34,6 +34,7 @@ export class ProductController {
   async getProductById(@Param('id') id: number) {
     return this.productService.getById(id);
   }
+
   @UseGuards(JwtGuard)
   @Put(':id')
   async updateNonQuantityProductData(
@@ -50,6 +51,7 @@ export class ProductController {
       statusCode: 200,
     };
   }
+
   @UseGuards(JwtGuard)
   @Put('quantity/:id')
   async updateProductQuantity(
